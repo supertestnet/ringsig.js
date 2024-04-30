@@ -9,6 +9,8 @@
         <script>
             // Create Message and Key Pair
             var msg = ringSig.bytesToHex( new TextEncoder().encode("Hello World!") );
+            console.log( "msg:" );
+            console.log( msg );
             var keypair = ringSig.genKeypair();
             var privateKey = keypair[ 0 ];
             var publicKey = keypair[ 1 ];
