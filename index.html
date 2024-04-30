@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Ring signatures</title>
+    </head>
+    <body>
+        <script src="./main.js"></script>
+        <script>
+            // Create Message and Key Pair
+            var msg = ringSig.bytesToHex( new TextEncoder().encode("Hello World!") );
+            var keypair = ringSig.genKeypair();
+            var privateKey = keypair[ 0 ];
+            var publicKey = keypair[ 1 ];
+
+            // Create Ring
+            var secretIndex = 2;
+            var ringLength = 10;
+            var ring = [];
+            var i; for ( i=0; i<ringLength; i++ ) {
+                // Create Random Public Keys for Testing
+                ring[i] = ringSig.genKeypair()[ 1 ];
+            }
+
+            // Set Public Key
+            ring[secretIndex] = publicKey;
+
+            // Create Ring Signature and Validate
+            var sig = ringSig.makeSig( msg, privateKey, ring, secretIndex );
+            var sigValid = ringSig.checkSig( sig, msg, ring );
+            console.log( "ring:" );
+            console.log( ring );
+            console.log( "sig:" );
+            console.log( sig );
+            console.log( "sig is valid, right?", sigValid );
+        </script>
+    </body>
+</html>
